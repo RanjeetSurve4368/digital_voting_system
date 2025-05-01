@@ -43,10 +43,12 @@ void adminlogin(){
     if(admin.id==Enterid && admin.name==Entername && admin.password==Enterpassword){
       cout<<"Welcome "<<Entername<< endl;
       cout<<"Please choose what you want to do from below options";
+      cout<<"1.Add new voter"<<endl<<"2.Add new candidate"<<endl<<"3.Check votes of Candidates"<<endl;
+      
 }
 void login(){
   int login1;
-  cout<<"If you want to login as voter please enter 1 and if you want to login as admin please enter 0";
+  cout<<"If you want to login as voter please enter 1 and if you want to login as admin please enter 0"<<endl;
   cin>>login1;
   if(login1==1) {
     voterlogin();
