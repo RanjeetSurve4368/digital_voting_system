@@ -25,7 +25,7 @@ void voterlogin(){
 }
 vector<aDetails> Admins={
 {1,"Ranjeet",1111},
-{2,"God",2222} }
+{2,"God",2222} };
 
 void adminlogin(){
   int Enterid, Enterpassword;
@@ -47,7 +47,7 @@ void adminlogin(){
 void login(){
   int login1;
   cout<<"If you want to login as voter please enter 1 and if you want to login as admin please enter 0";
-  cin<<login1;
+  cin>>login1;
   if(login1==1) {
     voterlogin();
   }
