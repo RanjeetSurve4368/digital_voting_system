@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <sstream>
 using namespace std;
 struct vDetails{
  int id;
@@ -208,7 +209,7 @@ vector<aDetails> Admins={
     while (getline(infile, line)) {
       stringstream ss(line);
       string idStr, nameStr, voteCountStr;
-      vDetails v;
+      cDetails v;
   
       getline(ss, idStr, ',');
       getline(ss, nameStr, ',');
