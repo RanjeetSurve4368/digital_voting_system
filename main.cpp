@@ -156,6 +156,65 @@ vector<aDetails> Admins={
     else
         cout << "Voter not found or credentials incorrect." << endl;
    } 
+   void AddCandidate(){
+    cDetails newCandidate;
+     cout<<"Enter name of new Candidate"<<endl;
+     cin>>newCandidate.name;
+     cout<<"Enter id of new Candidate"<<endl;
+     cin>>newCandidate.id;
+     newVoter.voteCount=0;
+
+     ofstream outfile("Candidates.txt",ios::app);
+      if(!outfile){
+      cout<<"Error openeing file"<<endl;
+      return;
+     }
+     outfile << newCandidate.id << "," << newCandidate.name << "," << newCandidate.voteCount << "\n";
+     outfile.close();
+
+     cout << "Candidate added successfully!" << endl;
+
+    }
+    DeleteCandidate(){
+     int idToDelete;
+    cout<<"Enter id of Candidate you want to delete"<<endl;
+    cin>>idTODelete; 
+    vector<cDetails> candidates;
+    ifstream infile("candidates.txt");
+    ofstream tempFile("temp.txt");
+
+    if (!infile || !tempFile) {
+        cout << "Error opening file!" << endl;
+        return;
+    }
+
+    string line;
+    bool deleted = false;
+
+    while (getline(infile, line)) {
+        stringstream ss(line);
+        cDetails v;
+        char comma;
+        ss >> v.id >> comma >> v.name >> comma >> v.voteCount;
+
+        if (v.id == idToDelete) {
+            deleted = true; // Skip writing this candidate
+        } else {
+            tempFile << v.id << "," << v.name << "," << v.voteCount << "\n";
+        }
+    }
+
+    infile.close();
+    tempFile.close();
+
+    remove("voters.txt");
+    rename("temp.txt", "voters.txt");
+
+    if (deleted)
+        cout << "Candidate deleted successfully." << endl;
+    else
+        cout << "Candidate not found or credentials incorrect." << endl;
+    }
 };
 void login(){
   int login1;
