@@ -93,11 +93,11 @@ vector<aDetails> Admins={
     }
     void AddVoter(){
      vDetails newVoter;
-     cout<<"Enter name of new voter";
+     cout<<"Enter name of new voter"<<endl;
      cin>>newVoter.name;
-     cout<<"Enter id of new voter";
+     cout<<"Enter id of new voter"<<endl;
      cin>>newVoter.id;
-     cout<<"Enter password of new voter";
+     cout<<"Enter password of new voter"<<endl;
      cin>>newVoter.password;
      newVoter.status= false;
 
@@ -111,7 +111,51 @@ vector<aDetails> Admins={
 
      cout << "Voter added successfully!" << endl;
 
-    }   
+    }
+   void DeleteVoter(){
+    int idToDelete;
+    cout<<"Enter id of voter you want to delete"<<endl;
+    cin>>idTODelete;
+    int passwordToDelete;
+    cout<<"Enter password of voter you want to delete"<<endl;
+    cin>>passwordToDelete;
+    
+    vector<vDetails> voters;
+    ifstream infile("voters.txt");
+    ofstream tempFile("temp.txt");
+
+    if (!infile || !tempFile) {
+        cout << "Error opening file!" << endl;
+        return;
+    }
+
+    string line;
+    bool deleted = false;
+
+    while (getline(infile, line)) {
+        stringstream ss(line);
+        vDetails v;
+        char comma;
+        ss >> v.id >> comma >> v.name >> comma >> v.password >> comma >> v.status;
+
+        if (v.id == idToDelete && v.password == passwordToDelete) {
+            deleted = true; // Skip writing this voter
+        } else {
+            tempFile << v.id << "," << v.name << "," << v.password << "," << v.status << "\n";
+        }
+    }
+
+    infile.close();
+    tempFile.close();
+
+    remove("voters.txt");
+    rename("temp.txt", "voters.txt");
+
+    if (deleted)
+        cout << "Voter deleted successfully." << endl;
+    else
+        cout << "Voter not found or credentials incorrect." << endl;
+   } 
 };
 void login(){
   int login1;
