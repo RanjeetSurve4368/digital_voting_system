@@ -110,12 +110,13 @@ vector<aDetails> Admins={
      outfile.close();
 
      cout << "Voter added successfully!" << endl;
+     getoptions();
 
     }
    void DeleteVoter(){
     int idToDelete;
     cout<<"Enter id of voter you want to delete"<<endl;
-    cin>>idTODelete;
+    cin>>idToDelete;
     int passwordToDelete;
     cout<<"Enter password of voter you want to delete"<<endl;
     cin>>passwordToDelete;
@@ -133,17 +134,27 @@ vector<aDetails> Admins={
     bool deleted = false;
 
     while (getline(infile, line)) {
-        stringstream ss(line);
-        vDetails v;
-        char comma;
-        ss >> v.id >> comma >> v.name >> comma >> v.password >> comma >> v.status;
-
-        if (v.id == idToDelete && v.password == passwordToDelete) {
-            deleted = true; // Skip writing this voter
-        } else {
-            tempFile << v.id << "," << v.name << "," << v.password << "," << v.status << "\n";
-        }
-    }
+      stringstream ss(line);
+      string idStr, nameStr, passwordStr, statusStr;
+      vDetails v;
+  
+      getline(ss, idStr, ',');
+      getline(ss, nameStr, ',');
+      getline(ss, passwordStr, ',');
+      getline(ss, statusStr, ',');
+  
+      // Convert string to appropriate typesRanjee
+      v.id = stoi(idStr);
+      v.name = nameStr;
+      v.password = stoi(passwordStr);
+      v.status = (statusStr == "1" || statusStr == "true"); // handle true/false or 1/0
+  
+      if (v.id == idToDelete && v.password == passwordToDelete) {
+          deleted = true; // Skip this voter
+      } else {
+          tempFile << v.id << "," << v.name << "," << v.password << "," << v.status << "\n";
+      }
+  }
 
     infile.close();
     tempFile.close();
@@ -151,10 +162,12 @@ vector<aDetails> Admins={
     remove("voters.txt");
     rename("temp.txt", "voters.txt");
 
-    if (deleted)
+    if (deleted){
         cout << "Voter deleted successfully." << endl;
-    else
+        getoptions();}
+    else{
         cout << "Voter not found or credentials incorrect." << endl;
+        DeleteVoter();}
    } 
    void AddCandidate(){
     cDetails newCandidate;
@@ -162,7 +175,7 @@ vector<aDetails> Admins={
      cin>>newCandidate.name;
      cout<<"Enter id of new Candidate"<<endl;
      cin>>newCandidate.id;
-     newVoter.voteCount=0;
+     newCandidate.voteCount=0;
 
      ofstream outfile("Candidates.txt",ios::app);
       if(!outfile){
@@ -173,12 +186,13 @@ vector<aDetails> Admins={
      outfile.close();
 
      cout << "Candidate added successfully!" << endl;
+     getoptions();
 
     }
-    DeleteCandidate(){
+    void DeleteCandidate(){
      int idToDelete;
     cout<<"Enter id of Candidate you want to delete"<<endl;
-    cin>>idTODelete; 
+    cin>>idToDelete; 
     vector<cDetails> candidates;
     ifstream infile("candidates.txt");
     ofstream tempFile("temp.txt");
@@ -192,29 +206,41 @@ vector<aDetails> Admins={
     bool deleted = false;
 
     while (getline(infile, line)) {
-        stringstream ss(line);
-        cDetails v;
-        char comma;
-        ss >> v.id >> comma >> v.name >> comma >> v.voteCount;
-
-        if (v.id == idToDelete) {
-            deleted = true; // Skip writing this candidate
-        } else {
-            tempFile << v.id << "," << v.name << "," << v.voteCount << "\n";
-        }
-    }
+      stringstream ss(line);
+      string idStr, nameStr, voteCountStr;
+      vDetails v;
+  
+      getline(ss, idStr, ',');
+      getline(ss, nameStr, ',');
+      getline(ss, voteCountStr, ',');
+  
+      // Convert string to appropriate typesRanjee
+      v.id = stoi(idStr);
+      v.name = nameStr;
+      v.voteCount = stoi(voteCountStr); 
+  
+      if (v.id == idToDelete) {
+          deleted = true; // Skip this voter
+      } else {
+          tempFile << v.id << "," << v.name << "," << v.voteCount << "\n";
+      }
+  }
 
     infile.close();
     tempFile.close();
 
-    remove("voters.txt");
-    rename("temp.txt", "voters.txt");
+    remove("candidates.txt");
+    rename("temp.txt", "candidates.txt");
 
-    if (deleted)
+    if (deleted){
         cout << "Candidate deleted successfully." << endl;
-    else
+        getoptions();}
+    else{
         cout << "Candidate not found or credentials incorrect." << endl;
+       DeleteCandidate();}
+     
     }
+
 };
 void login(){
   int login1;
