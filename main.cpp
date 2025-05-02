@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <ofstream>
+#include <fstream>
 using namespace std;
 struct vDetails{
  int id;
@@ -51,8 +51,8 @@ vector<aDetails> Admins={
       loginCheck(Eid,Epassword,Ename);
     }
     bool loginCheck(int id, int password, string name){
-     for(&auto admin: Admins){
-      if(admin.id=Eid && admin.password=Epassword && admin.name=Ename){
+     for(auto& admin: Admins){
+      if(admin.id==Eid && admin.password==Epassword && admin.name==Ename){
       cout<<"Welcome "<<name<<" to make changes"<<endl;
       cout<<"Please Choose options below "<<endl;
       cout<<"1.Add Voter"<<endl;
@@ -66,6 +66,7 @@ vector<aDetails> Admins={
       cout<<"Please Check your info and try again";
       getinput();
      }
+    }
     }
     void getoptions(){
      int option;
@@ -100,17 +101,17 @@ vector<aDetails> Admins={
      cin>>newVoter.password;
      newVoter.status= false;
 
-     ofstream outfile("voters.txt",ios::app)
+     ofstream outfile("voters.txt",ios::app);
       if(!outfile){
       cout<<"Error openeing file"<<endl;
       return;
      }
-     outFile << newVoter.id << "," << newVoter.name << "," << newVoter.password << "," << newVoter.status << "\n";
-     outFile.close();
+     outfile << newVoter.id << "," << newVoter.name << "," << newVoter.password << "," << newVoter.status << "\n";
+     outfile.close();
 
      cout << "Voter added successfully!" << endl;
 
-      
+    }   
 };
 void login(){
   int login1;
@@ -137,4 +138,5 @@ int main(){
   
   
   return 0;
-}
+
+};
